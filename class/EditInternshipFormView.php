@@ -249,6 +249,8 @@ class EditInternshipFormView {
         $this->form->addCssClass('agency_zip', 'form-control');
 
         $countries = CountryFactory::getCountries();
+        asort($countries, SORT_STRING);
+        $countries = array('-1' => 'Select Country') + $countries;
 
         if($this->intern->domestic) {
             $this->form->addSelect('agency_state', State::$UNITED_STATES);
@@ -261,10 +263,6 @@ class EditInternshipFormView {
             $this->form->setLabel('agency_province', 'Province/Territory');
             $this->form->addCssClass('agency_province', 'form-control');
 
-            $countries = CountryFactory::getCountries();
-            $countries[] = "United States of America";
-            sort($countries, SORT_STRING);
-            $countries = array('-1' => 'Select Country') + $countries;
             $this->form->addSelect('agency_country', $countries);
             $this->form->setLabel('agency_country', 'Country');
             $this->form->addCssClass('agency_country', 'form-control');
@@ -324,10 +322,6 @@ class EditInternshipFormView {
             $this->form->setLabel('agency_sup_province', 'Province');
             $this->form->addCssClass('agency_sup_province', 'form-control');
 
-            $countries = CountryFactory::getCountries();
-            $countries[] = "United States of America";
-            sort($countries, SORT_STRING);
-            $countries = array('-1' => 'Select Country') + $countries;
             $this->form->addSelect('agency_sup_country', $countries);
             $this->form->setLabel('agency_sup_country', 'Country');
             $this->form->addCssClass('agency_sup_country', 'form-control');
@@ -399,6 +393,7 @@ class EditInternshipFormView {
 
             if (\Current_User::isDeity()) {
                 $countries = CountryFactory::getCountries();
+                unset($countries['US']);
                 $this->form->addSelect('loc_country', $countries);
                 $this->form->setMatch('loc_country', $this->intern->loc_country);
                 $this->form->addCssClass('loc_country', 'form-control');
