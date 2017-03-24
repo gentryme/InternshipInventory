@@ -262,7 +262,7 @@ class EditInternshipFormView {
             $this->form->addCssClass('agency_province', 'form-control');
 
             $countries = CountryFactory::getCountries();
-            $countries[] = "United States";
+            $countries[] = "United States of America";
             sort($countries, SORT_STRING);
             $countries = array('-1' => 'Select Country') + $countries;
             $this->form->addSelect('agency_country', $countries);
@@ -325,7 +325,7 @@ class EditInternshipFormView {
             $this->form->addCssClass('agency_sup_province', 'form-control');
 
             $countries = CountryFactory::getCountries();
-            $countries[] = "United States";
+            $countries[] = "United States of America";
             sort($countries, SORT_STRING);
             $countries = array('-1' => 'Select Country') + $countries;
             $this->form->addSelect('agency_sup_country', $countries);
