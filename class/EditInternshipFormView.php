@@ -393,6 +393,7 @@ class EditInternshipFormView {
 
             if (\Current_User::isDeity()) {
                 $countries = CountryFactory::getCountries();
+                asort($countries, SORT_STRING);
                 unset($countries['US']);
                 $this->form->addSelect('loc_country', $countries);
                 $this->form->setMatch('loc_country', $this->intern->loc_country);
