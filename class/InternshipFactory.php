@@ -36,6 +36,41 @@ class InternshipFactory {
     }
 
     /**
+    * Generates an Internship object by attempting to load the internship from the database with the given
+    * student id and term.
+    *
+    * @param int $banner
+    * @param int $term
+    * @return boolean
+    * @throws InvalidArgumentException
+    * @throws Exception
+    * @throws InternshipNotFoundException
+    */
+    public static function getInternshipByStudentIdTerm($banner, $term)
+    {
+        if(is_null($banner) || !isset($banner)){
+            throw new \InvalidArgumentException('Student ID is required.');
+        }
+
+        if($banner <= 0){
+            throw new \InvalidArgumentException('Student ID must be greater than zero.');
+        }
+
+        $db = Database::newDB();
+        $pdo = $db->getPDO();
+
+        $stmt = $pdo->prepare("SELECT * FROM intern_internship WHERE banner = :banner AND term = :term");
+        $stmt->execute(array('banner' => $banner, 'term' => $term));
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Intern\InternshipRestored');
+
+        if(null !== $stmt->fetch()){
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns an array of Internship objects which are in the early stages of pending approval.
      * Mainly used to send reminders to internships that aren't getting approved in a timely manner.
      * As long as the Sig Auth person has approved it (i.e. it's pending Dean approval), then we don't

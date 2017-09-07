@@ -47,6 +47,16 @@ class AddInternship {
             return;
         }
 
+        // Check to see if there is already an existing internship for this student during this term.
+        $internshipCheck = $this->checkForExistingInternship();
+
+        // If there is an existing internship, redirect to add internship interface
+        if($internshipCheck) {
+            \NQ::simple('intern', \Intern\UI\NotifyUI::ERROR, "This student already has an existing internship for the term.");
+            $this->redirectToForm();
+            return;
+        }
+
         // Check that the student Id looks valid
         $studentId = $_POST['studentId'];
 
@@ -150,6 +160,17 @@ class AddInternship {
         }
 
         return $missingFieldList;
+    }
+
+    /**
+    * Check for existing internship in the same term for the same student
+    * Then show warning before creating internship.
+    */
+    private function checkForExistingInternship()
+    {
+        $check = \Intern\InternshipFactory::getInternshipByStudentIdTerm($_POST['studentId'], $_POST['term']);
+
+        return $check;
     }
 
     /**
