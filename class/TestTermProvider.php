@@ -1,7 +1,8 @@
 <?php
 
 namespace Intern;
-
+echo("hello world");
+exit;
 /**
  * TestStudentProvider - Always returns student objects with hard-coded testing data
  *
@@ -180,6 +181,8 @@ class TestTermProvider extends BannerTermProvider {
 
                 break;
             default:
+            var_dump($this->term);
+            exit;
                 throw new \Exception('Missing fake census date for ' . $this->term);
         }
 
